@@ -1,8 +1,6 @@
-from fastapi import FastAPI
+from app.main import app
 
-app = FastAPI()
+if __name__ == "__main__":
+    import uvicorn
 
-@app.get("/")
-def read_root():
-    return {"Hello": "FastAPI on Ubuntu"}
-
+    uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
