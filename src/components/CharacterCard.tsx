@@ -9,8 +9,13 @@ export default function CharacterCard({ className }: { className?: string }) {
   const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
   const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+  // Exaggerated rotation for pop-out 3D effect
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["25deg", "-25deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-25deg", "25deg"]);
+
+  // Glare moves opposite to the cursor for simulated reflection
+  const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["-100%", "100%"]);
+  const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["-100%", "100%"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -30,37 +35,71 @@ export default function CharacterCard({ className }: { className?: string }) {
   };
 
   return (
-    <motion.div
-      className={cn("perspective-1000", className)}
+    <div
+      className={cn("relative perspective-2000 cursor-none", className)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-      }}
     >
-      <div
-        className="w-full max-w-sm mx-auto aspect-[3/4] brutal-border brutal-shadow rounded-[20px] overflow-hidden bg-gradient-to-br from-banana to-banana-deep group"
-        style={{ transform: "translateZ(50px)" }}
+      <motion.div
+        className="w-full h-full relative preserve-3d"
+        style={{ rotateX, rotateY }}
       >
-        {/* Replace this placeholder with your character image file */}
-        <img
-          src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&q=80&w=800"
-          alt="UncedoAI Agent Character"
-          className="w-full h-full object-cover filter contrast-125 saturate-110"
-          referrerPolicy="no-referrer"
-        />
-        
-        {/* Overlay content to give extra depth */}
+        {/* Base Card with Image */}
         <div 
-          className="absolute bottom-4 left-4 right-4 bg-paper brutal-border brutal-shadow-sm p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform"
-          style={{ transform: "translateZ(80px)" }}
+          className="absolute inset-0 brutal-border bg-banana overflow-hidden shadow-[20px_20px_0px_#000] scale-95"
+          style={{ borderRadius: "24px", transform: "translateZ(0px)" }}
         >
-          <div className="font-display text-2xl mb-1">UNCEDO AGENT</div>
-          <div className="text-sm font-semibold uppercase tracking-wider">Ready to Hustle</div>
+          <img
+            src="/character.png" 
+            alt="Uncedo Agent Focus"
+            className="w-full h-full object-cover filter contrast-125 saturate-110"
+            onError={(e) => {
+              // Fallback to a similar aesthetic placeholder if the user hasn't downloaded and dragged in character.png
+              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1200";
+            }}
+          />
+          
+          {/* Dynamic Glare Overlay */}
+          <motion.div 
+            className="absolute inset-0 pointer-events-none opacity-40 mix-blend-overlay"
+            style={{
+              background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,1) 0%, transparent 50%)",
+              left: glareX,
+              top: glareY,
+              width: "200%",
+              height: "200%",
+              transform: "translate(-25%, -25%)"
+            }}
+          />
         </div>
-      </div>
-    </motion.div>
+
+        {/* Floating Elements (Massive Z-Translation for Parallax) */}
+        <div 
+          className="absolute -bottom-10 -left-10 bg-paper brutal-border p-6 shadow-[12px_12px_0px_var(--color-ink)]"
+          style={{ transform: "translateZ(120px)", borderRadius: "20px" }}
+        >
+          <div className="text-sm font-bold uppercase tracking-widest text-[#444] mb-1">Hustle Score</div>
+          <div className="font-display text-7xl text-green leading-none">842</div>
+          <div className="mt-3 bg-[#DCFCE7] text-green px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide inline-block">
+            A+ Profile
+          </div>
+        </div>
+
+        <div 
+          className="absolute top-16 -right-12 bg-banana brutal-border px-6 py-2.5 shadow-[8px_8px_0px_var(--color-ink)] rotate-[8deg]"
+          style={{ transform: "translateZ(180px)", borderRadius: "12px" }}
+        >
+          <div className="font-display text-3xl">ACTIVE</div>
+        </div>
+        
+        <div 
+          className="absolute top-64 -left-14 bg-ink text-paper brutal-border px-5 py-2 shadow-[8px_8px_0px_var(--color-banana)] rotate-[-12deg]"
+          style={{ transform: "translateZ(150px)", borderRadius: "10px" }}
+        >
+          <div className="font-display text-2xl text-banana">AI AGENT</div>
+        </div>
+
+      </motion.div>
+    </div>
   );
 }

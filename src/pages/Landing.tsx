@@ -20,7 +20,7 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <main className="w-full max-w-7xl mx-auto px-6 py-12 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+      <main className="w-full max-w-[1400px] mx-auto px-6 py-12 lg:py-16 grid grid-cols-1 xl:grid-cols-[45%_55%] gap-16 items-center relative z-10">
         <div className="flex flex-col gap-8">
           <div className="inline-block bg-ink text-paper font-bold uppercase tracking-wider text-sm px-4 py-2 w-max brutal-border">
             The Digital Hustle Record
@@ -46,8 +46,8 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="flexjustify-center lg:justify-end">
-          <CharacterCard className="w-full max-w-md" />
+        <div className="flex justify-center xl:justify-end perspective-2000 w-full relative h-[600px] md:h-[700px] lg:h-[850px] mb-20 lg:mb-0 mt-10 lg:mt-0 scale-105">
+          <CharacterCard className="w-full h-full max-w-[650px]" />
         </div>
       </main>
 

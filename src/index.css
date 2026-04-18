@@ -40,6 +40,14 @@ body {
   transition: all 0.2s ease;
 }
 
+/* 3D Utilities */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.perspective-2000 {
+  perspective: 2000px;
+}
+
 .brutal-shadow:hover {
   box-shadow: 4px 4px 0px 0px var(--color-ink);
   transform: translate(4px, 4px);
