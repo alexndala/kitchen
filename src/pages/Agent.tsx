@@ -22,7 +22,7 @@ type Message = {
 
 export default function Agent() {
   const [messages, setMessages] = useState<Message[]>([
-    { id: "1", role: "model", text: "Sawubona! I'm your Uncedo Agent. Tell me what you bought or sold today, or ask me to generate a marketing image for your products." }
+    { id: "1", role: "model", text: "Sawubona! I'm your Ikusasa Agent. Tell me what you bought or sold today, or ask me to generate a marketing image for your products." }
   ]);
   const [input, setInput] = useState("");
   const [ledger, setLedger] = useState<LedgerEntry[]>([]);
@@ -30,8 +30,8 @@ export default function Agent() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const hustleScore = ledger.length > 0 
-    ? Math.min(850, 300 + ledger.reduce((acc, curr) => acc + (curr.type === "income" ? curr.amount * 0.1 : 0), 0)) 
+  const hustleScore = ledger.length > 0
+    ? Math.min(850, 300 + ledger.reduce((acc, curr) => acc + (curr.type === "income" ? curr.amount * 0.1 : 0), 0))
     : "---";
 
   const totalIncome = ledger.filter(l => l.type === "income").reduce((acc, curr) => acc + curr.amount, 0);
@@ -58,23 +58,23 @@ export default function Agent() {
 
     const userText = input;
     const currentUploadedImage = uploadedImage;
-    
+
     setInput("");
     setUploadedImage(null);
-    
+
     const newMessageId = Date.now().toString();
-    setMessages(prev => [...prev, { 
-      id: newMessageId, 
-      role: "user", 
-      text: userText, 
-      imageUrl: currentUploadedImage || undefined 
+    setMessages(prev => [...prev, {
+      id: newMessageId,
+      role: "user",
+      text: userText,
+      imageUrl: currentUploadedImage || undefined
     }]);
-    
+
     setIsTyping(true);
 
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      
+
       const recordTransaction: FunctionDeclaration = {
         name: "recordTransaction",
         description: "Record a business transaction for the entrepreneur.",
@@ -119,7 +119,7 @@ export default function Agent() {
         model: "gemini-3.1-pro-preview",
         contents: { parts },
         config: {
-          systemInstruction: "You are the Uncedo Agent, helping informal entrepreneurs build their Hustle Score. Be encouraging, concise, and professional but street-smart (use positive, simple language). Use the recordTransaction tool when they talk about buying/selling. Use generateImageForMarketing when they want an image created.",
+          systemInstruction: "You are the Ikusasa Agent, helping informal entrepreneurs build their Hustle Score. Be encouraging, concise, and professional but street-smart (use positive, simple language). Use the recordTransaction tool when they talk about buying/selling. Use generateImageForMarketing when they want an image created.",
           tools: [{ functionDeclarations: [recordTransaction, generateImageAction] }],
         }
       });
@@ -138,25 +138,25 @@ export default function Agent() {
               description: args.description,
               date: new Date().toLocaleDateString()
             }, ...prev]);
-            
+
             // Generate a follow up acknowledgement
             const followUp = await ai.models.generateContent({
               model: "gemini-3-flash-preview",
-              contents: "A transaction was recorded: " + args.type + " of " + args.amount + " for " + args.description + ". Acknowledge this to the user cheerfully." 
+              contents: "A transaction was recorded: " + args.type + " of " + args.amount + " for " + args.description + ". Acknowledge this to the user cheerfully."
             });
             responseText = followUp.text || "Recorded it successfully in your ledger, hustler!";
-          } 
+          }
           else if (call.name === "generateImageForMarketing") {
             const args = call.args as any;
             responseText = "Generating your image... hold tight!";
-            
+
             // Build contents for image gen
             const imgParts: any[] = [{ text: args.imagePrompt }];
             if (currentUploadedImage) {
-               // Include the source image for editing!
-               const base64Data = currentUploadedImage.split(',')[1];
-               const mimeType = currentUploadedImage.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)?.[1] || 'image/jpeg';
-               imgParts.unshift({ inlineData: { mimeType, data: base64Data } });
+              // Include the source image for editing!
+              const base64Data = currentUploadedImage.split(',')[1];
+              const mimeType = currentUploadedImage.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)?.[1] || 'image/jpeg';
+              imgParts.unshift({ inlineData: { mimeType, data: base64Data } });
             }
 
             try {
@@ -164,7 +164,7 @@ export default function Agent() {
                 model: "gemini-3.1-flash-image-preview",
                 contents: { parts: imgParts },
                 config: {
-                   imageConfig: { aspectRatio: "1:1", imageSize: "1K" }
+                  imageConfig: { aspectRatio: "1:1", imageSize: "1K" }
                 }
               });
 
@@ -174,7 +174,7 @@ export default function Agent() {
                   responseText = "Here is your marketing image. Looking good!";
                 }
               }
-            } catch(e) {
+            } catch (e) {
               console.error("Image generation failed", e);
               responseText = "Sorry, I hit a snag generating that image. Could you try describing it differently?";
             }
@@ -264,29 +264,29 @@ export default function Agent() {
           <Link to="/" className="brutal-border bg-paper p-2 rounded-full">
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div className="font-display text-xl">UNCEDO<span className="text-paper">AI</span></div>
+          <div className="font-display text-xl">IKUSASA<span className="text-paper">AI</span></div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 lg:p-8 flex flex-col gap-6">
           {messages.map((m) => (
-             <div key={m.id} className={"flex w-full " + (m.role === "user" ? "justify-end" : "justify-start")}>
-               <div className={"max-w-[85%] md:max-w-2xl brutal-border brutal-shadow-sm p-4 text-lg font-medium " + (m.role === "user" ? "bg-banana" : "bg-white")}>
-                  {m.imageUrl && (
-                    <img src={m.imageUrl} alt="attached or generated" className="w-full max-w-sm rounded-lg mb-4 brutal-border" />
-                  )}
-                  {m.text && (
-                    <div className="markdown-body prose prose-lg prose-p:leading-snug">
-                      <Markdown>{m.text}</Markdown>
-                    </div>
-                  )}
-               </div>
-             </div>
+            <div key={m.id} className={"flex w-full " + (m.role === "user" ? "justify-end" : "justify-start")}>
+              <div className={"max-w-[85%] md:max-w-2xl brutal-border brutal-shadow-sm p-4 text-lg font-medium " + (m.role === "user" ? "bg-banana" : "bg-white")}>
+                {m.imageUrl && (
+                  <img src={m.imageUrl} alt="attached or generated" className="w-full max-w-sm rounded-lg mb-4 brutal-border" />
+                )}
+                {m.text && (
+                  <div className="markdown-body prose prose-lg prose-p:leading-snug">
+                    <Markdown>{m.text}</Markdown>
+                  </div>
+                )}
+              </div>
+            </div>
           ))}
           {isTyping && (
             <div className="flex w-full justify-start">
-               <div className="bg-white brutal-border brutal-shadow-sm p-4 text-xl">
-                 <span className="animate-pulse">Typing...</span>
-               </div>
+              <div className="bg-white brutal-border brutal-shadow-sm p-4 text-xl">
+                <span className="animate-pulse">Typing...</span>
+              </div>
             </div>
           )}
           <div ref={chatEndRef} />
@@ -295,38 +295,38 @@ export default function Agent() {
         {/* Input Area */}
         <div className="p-4 lg:p-8 bg-paper border-t-4 border-ink">
           {uploadedImage && (
-             <div className="relative inline-block mb-4">
-               <img src={uploadedImage} alt="upload preview" className="h-24 rounded brutal-border object-cover" />
-               <button onClick={() => setUploadedImage(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 brutal-border">
-                 <X className="w-4 h-4" />
-               </button>
-             </div>
+            <div className="relative inline-block mb-4">
+              <img src={uploadedImage} alt="upload preview" className="h-24 rounded brutal-border object-cover" />
+              <button onClick={() => setUploadedImage(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 brutal-border">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           )}
           <div className="flex flex-col sm:flex-row gap-4 items-end sm:items-center relative">
-             
-             <label className="cursor-pointer bg-ink text-paper p-4 brutal-border brutal-shadow flex-shrink-0 hover:bg-ink/80 transition-colors">
-                <ImageIcon className="w-6 h-6" />
-                <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-             </label>
-             
-             <div className="flex-1 w-full relative">
-                <input 
-                  type="text" 
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => e.key === "Enter" && handleSend()}
-                  placeholder="Record 'Sold 5 bags for 200' or 'Create a poster'..."
-                  className="w-full text-lg p-4 brutal-border focus:outline-none bg-[#FAFAFA]"
-                />
-             </div>
 
-             <button 
-               onClick={handleSend}
-               disabled={isTyping}
-               className="bg-banana p-4 brutal-border brutal-shadow text-ink hover:bg-banana-deep transition-colors disabled:opacity-50 flex-shrink-0"
-             >
-                <Send className="w-6 h-6" />
-             </button>
+            <label className="cursor-pointer bg-ink text-paper p-4 brutal-border brutal-shadow flex-shrink-0 hover:bg-ink/80 transition-colors">
+              <ImageIcon className="w-6 h-6" />
+              <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+            </label>
+
+            <div className="flex-1 w-full relative">
+              <input
+                type="text"
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && handleSend()}
+                placeholder="Record 'Sold 5 bags for 200' or 'Create a poster'..."
+                className="w-full text-lg p-4 brutal-border focus:outline-none bg-[#FAFAFA]"
+              />
+            </div>
+
+            <button
+              onClick={handleSend}
+              disabled={isTyping}
+              className="bg-banana p-4 brutal-border brutal-shadow text-ink hover:bg-banana-deep transition-colors disabled:opacity-50 flex-shrink-0"
+            >
+              <Send className="w-6 h-6" />
+            </button>
           </div>
           <div className="mt-4 text-xs font-bold uppercase tracking-wider text-ink/50 text-center">
             AI can make mistakes. Always verify your ledger before submitting for credit.

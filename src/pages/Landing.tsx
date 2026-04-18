@@ -10,9 +10,9 @@ export default function Landing() {
 
       {/* Navigation */}
       <nav className="w-full max-w-7xl mx-auto px-6 py-8 flex justify-between items-center relative z-10">
-        <div className="font-display text-4xl tracking-tight">UNCEDO<span className="text-banana-deep">AI</span></div>
+        <div className="font-display text-4xl tracking-tight">IKUSASA<span className="text-banana-deep">AI</span></div>
         <a
-          href="https://wa.me/1415523886?text=join-column-means"
+          href="https://wa.me/14155238886?text=join-column-means"
           target="_blank" rel="noopener noreferrer"
           className="bg-banana text-ink font-display text-xl px-8 py-3 brutal-border brutal-shadow-sm uppercase hover:bg-banana-deep"
         >
@@ -35,7 +35,7 @@ export default function Landing() {
 
           <div className="flex flex-col sm:flex-row gap-6 mt-4">
             <a
-              href="https://wa.me/1415523886?text=join-column-means"
+              href="https://wa.me/14155238886?text=join-column-means"
               target="_blank" rel="noopener noreferrer"
               className="bg-ink text-paper font-display text-[18px] px-10 py-5 brutal-border brutal-shadow flex items-center justify-center gap-3 hover:scale-105 transition-transform rounded-[100px]"
             >
@@ -87,7 +87,7 @@ export default function Landing() {
           </div>
           <h3 className="font-display text-3xl">Marketing Support</h3>
           <p className="font-medium text-lg leading-relaxed">
-            Get personalized advice to bring in more local customers. Uncedo helps you figure out the best ways to advertise and manage stock based on what people buy.
+            Get personalized advice to bring in more local customers. Ikusasa helps you figure out the best ways to advertise and manage stock based on what people buy.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function Landing() {
           </div>
           <h3 className="font-display text-3xl">Simple WhatsApp Setup</h3>
           <p className="font-medium text-lg leading-relaxed">
-            There are no complicated apps to install. If you know how to send a WhatsApp message, you already know how to use Uncedo for your business.
+            There are no complicated apps to install. If you know how to send a WhatsApp message, you already know how to use Ikusasa for your business.
           </p>
         </div>
       </section>
@@ -114,7 +114,7 @@ export default function Landing() {
             <div className="bg-paper text-ink p-8 brutal-border shadow-[8px_8px_0px_var(--color-banana)] relative">
               <div className="absolute -top-6 -left-6 bg-green text-ink font-display text-4xl w-14 h-14 flex items-center justify-center brutal-border rounded-full shadow-[4px_4px_0px_#000] rotate-[-5deg]">1</div>
               <h3 className="font-display text-2xl mb-3 mt-4">Save Our Number</h3>
-              <p className="font-medium text-lg text-[#444]">Save Uncedo's WhatsApp number to your phone contacts. No app store downloads needed at all.</p>
+              <p className="font-medium text-lg text-[#444]">Save Ikusasa's WhatsApp number to your phone contacts. No app store downloads needed at all.</p>
             </div>
             {/* Step 2 */}
             <div className="bg-paper text-ink p-8 brutal-border shadow-[8px_8px_0px_var(--color-banana)] relative">
@@ -143,7 +143,7 @@ export default function Landing() {
           <div className="flex flex-col gap-6">
             <div className="bg-paper p-8 brutal-border shadow-[4px_4px_0px_var(--color-ink)] hover:-translate-y-1 transition-transform">
               <h4 className="font-display text-2xl mb-3">Is this service really free?</h4>
-              <p className="font-medium text-lg text-ink/80">Yes! You only pay standard WhatsApp data charges. The Uncedo Agent is completely free to chat with and record your business information.</p>
+              <p className="font-medium text-lg text-ink/80">Yes! You only pay standard WhatsApp data charges. The Ikusasa Agent is completely free to chat with and record your business information.</p>
             </div>
             <div className="bg-paper p-8 brutal-border shadow-[4px_4px_0px_var(--color-ink)] hover:-translate-y-1 transition-transform">
               <h4 className="font-display text-2xl mb-3">Do I need a smartphone?</h4>
@@ -164,14 +164,14 @@ export default function Landing() {
           Join thousands of other South African business owners building their credit profile on WhatsApp today.
         </p>
         <a
-          href="https://wa.me/1415523886?text=join-column-means"
+          href="https://wa.me/14155238886?text=join-column-means"
           target="_blank" rel="noopener noreferrer"
           className="inline-flex bg-green text-ink font-display text-[22px] px-12 py-6 brutal-border shadow-[8px_8px_0px_var(--color-paper)] hover:scale-105 transition-transform uppercase rounded-[100px] mb-8"
         >
           START CHATTING NOW
         </a>
         <div className="mt-16 text-sm font-bold tracking-widest uppercase opacity-50">
-          © 2026 UNCEDO AI. All Rights Reserved.
+          © 2026 IKUSASA AI. All Rights Reserved.
         </div>
       </footer>
 

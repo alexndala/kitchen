@@ -17,13 +17,6 @@ export default function CharacterCard({ className }: { className?: string }) {
   // Glare moves opposite to the cursor for simulated reflection
   const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["-100%", "100%"]);
   const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["-100%", "100%"]);
-  // Exaggerated rotation for pop-out 3D effect
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["25deg", "-25deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-25deg", "25deg"]);
-
-  // Glare moves opposite to the cursor for simulated reflection
-  const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["-100%", "100%"]);
-  const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["-100%", "100%"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -59,7 +52,7 @@ export default function CharacterCard({ className }: { className?: string }) {
         >
           <img
             src={characterImg}
-            alt="Uncedo Agent Focus"
+            alt="Ikusasa Agent Focus"
             className="w-full h-full object-cover filter contrast-125 saturate-110"
           />
 
